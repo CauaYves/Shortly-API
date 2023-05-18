@@ -1,32 +1,36 @@
-export async function postUrls(){
-    try{
+import { receiveCookie } from "../services/auth.service.js"
 
+export async function postUrls(req, res) {
+    try {
+        const cookie = await receiveCookie(req)
+        
+        res.send(cookie)
     }
-    catch(error){
+    catch (error) {
         res.send(error.message)
     }
 }
-export async function getUrlsById(){
-    try{
+export async function getUrlsById() {
+    try {
 
     }
-    catch(error){
+    catch (error) {
         res.send(error.message)
     }
 }
-export async function getOpenUrls(){
-    try{
+export async function getOpenUrls() {
+    try {
 
     }
-    catch(error){
+    catch (error) {
         res.send(error.message)
     }
 }
-export async function deleteUrl(){
-    try{
+export async function deleteUrl() {
+    try {
 
     }
-    catch(error){
+    catch (error) {
         res.send(error.message)
     }
 }
