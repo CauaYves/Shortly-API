@@ -1,6 +1,5 @@
-import { checkIfUserExists, createUser, searchUserByEmail } from "../services/auth.service.js";
+import { checkIfUserExists, createToken, createUser, searchUserByEmail } from "../services/auth.service.js";
 import bcrypt from "bcrypt";
-
 
 export async function signUp(req, res) {
     const { name, email, password, confirmPassword } = req.body;
@@ -32,8 +31,12 @@ export async function signIn(req, res) {
             return res.status(401).send("usuário não existe");
         }
         const user = await searchUserByEmail(email)
+
+        const token = await createToken(user.id, user.name)
+
         if (!bcrypt.compareSync(password, user.password)) return res.sendStatus(401)
-        return res.sendStatus(200)
+        console.log(token)
+        return res.status(200).send({token: token})
     }
     catch (error) {
         res.send(error.message)
