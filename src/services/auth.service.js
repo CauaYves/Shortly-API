@@ -24,11 +24,6 @@ export async function createToken(userid, username) {
     const token = jwt.sign(userid, username)
     return token
 }
-export async function checkToken(req) {
-    const auth = req.headers.authorization
-    const token = auth.replace("Bearer", "")
-    jwt.verify(token,)
-}
 export async function receiveCookie(req) {
     const cookieName = 'cookieName';
 
