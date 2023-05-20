@@ -39,7 +39,7 @@ export async function deleteUrlDatabaseById(id) {
 }
 export async function verifyToken(token) {
     try {
-        const decoded = jwt.verify(token, 'redflag');
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const { userId, name } = decoded;
         return { userId, name };
     } catch (error) {

@@ -37,7 +37,7 @@ export async function signIn(req, res) {
             return res.status(401).send("Credenciais inválidas");
         }
 
-        const token = Jwt.sign({ userId: user.id, name: user.name }, "redflag", {
+        const token = Jwt.sign({ userId: user.id, name: user.name }, process.env.SECRET_KEY, {
             expiresIn: '1d'
         });
 
