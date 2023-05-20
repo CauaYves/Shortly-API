@@ -1,8 +1,11 @@
-export async function getRanking(){
-    try{
+import { getTenLastRanked } from "../services/ranking.service.js"
 
+export async function getRanking(req, res) {
+    try {
+        const answer = await getTenLastRanked()
+        res.send(answer)
     }
-    catch(error){
+    catch (error) {
         res.send(error.message)
     }
 }
