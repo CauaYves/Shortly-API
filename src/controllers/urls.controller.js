@@ -16,7 +16,7 @@ export async function postUrls(req, res) {
         const nanoidurl = nanoid(8)
 
 
-        const query = "INSERT INTO urls (shorturl, url, visitcount, userid, createdat) VALUES($1, $2, $3, $4, to_timestamp($5))"
+        const query = "INSERT INTO urls (shorturl, url, visitcount, userid, createdAt) VALUES($1, $2, $3, $4, to_timestamp($5))"
         const values = [nanoidurl, url, 0, cookie.userId, Date.now()]
         await db.query(query, values)
 
