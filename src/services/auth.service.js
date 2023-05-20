@@ -7,7 +7,8 @@ export async function checkIfUserExists(email) {
     return result.rowCount !== 0;
 }
 export async function createUser(name, email, password) {
-    const query = `INSERT INTO users (name, email, password, createdAt) VALUES ($1, $2, $3, to_timestamp($4));`;
+    const query = `INSERT INTO users (name, email, password, "createdAt") VALUES ($1, $2, $3, to_timestamp($4));`
+
     const timestamp = new Date().getTime();
     const hashedPassword = await bcrypt.hash(password, 5)
     const values = [name, email, hashedPassword, timestamp]
