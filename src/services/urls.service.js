@@ -11,3 +11,9 @@ export async function getNanoidById(nanoid) {
     if(urls.rowCount === 0) return null
     return urls.rows[0]
 }
+
+export async function getUrlDataById(id) {
+    const answer = await db.query("SELECT id, shorturl, url FROM urls WHERE id = $1;", [id]);
+    if(answer.rowCount === 0) return null
+    return answer.rows[0]
+}

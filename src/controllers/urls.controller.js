@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid"
 import { receiveCookie } from "../services/auth.service.js"
-import { checkToken, getNanoidById } from "../services/urls.service.js"
+import { checkToken, getNanoidById, getUrlDataById } from "../services/urls.service.js"
 import db from "../database/database.connection.js"
 
 export async function postUrls(req, res) {
@@ -8,10 +8,10 @@ export async function postUrls(req, res) {
         const { url } = req.body
 
         const cookie = await receiveCookie(req)
-        if(cookie === null) return res.sendStatus(401)
+        if (cookie === null) return res.sendStatus(401)
 
         const resp = await checkToken(req, cookie)
-        if(resp === null) return res.sendStatus(401)
+        if (resp === null) return res.sendStatus(401)
 
         const nanoidurl = nanoid(8)
 
@@ -21,16 +21,19 @@ export async function postUrls(req, res) {
         await db.query(query, values)
 
         const urls = await getNanoidById(nanoidurl)
-        
+
         res.send(urls)
     }
     catch (error) {
         res.send(error.message)
     }
 }
-export async function getUrlsById() {
+export async function getUrlsById(req, res) {
+    const { id } = req.params
     try {
-
+        const url = await getUrlDataById(id)
+        if(url === null) return res.sendStatus(404)
+        res.send(url)
     }
     catch (error) {
         res.send(error.message)
