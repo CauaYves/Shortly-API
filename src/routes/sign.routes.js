@@ -5,7 +5,7 @@ import { signinSchema, signupSchema } from "../schemas/sign.schema.js";
 
 const sign = Router()
 
-sign.post("/signup",validateSchema(signupSchema), signUp)
-sign.post("/signin",validateSchema(signinSchema), signIn)
+sign.post("/signup",validateSchema(signupSchema, 422), signUp)
+sign.post("/signin",validateSchema(signinSchema, 422), signIn)
 
 export default sign

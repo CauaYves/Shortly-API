@@ -1,5 +1,5 @@
-import { nanoid } from "nanoid"
 import db from "../database/database.connection.js"
+import jwt from "jsonwebtoken"
 
 export async function checkToken(req) {
     const { authorization } = req.headers
@@ -25,3 +25,25 @@ export async function incrementVisitors(shorturl) {
     if (res.rowCount === 0) return null
     return res.rows[0].url
 }
+
+export async function getUrlUser(id) {
+    const answer = await db.query("SELECT id, shorturl, url, userId FROM urls WHERE id = $1;", [id]);
+    if (answer.rowCount === 0) return null
+    return answer.rows[0]
+}
+
+export async function deleteUrlDatabaseById(id) {
+
+    await db.query("DELETE FROM urls WHERE id = $1;",[id])
+
+}
+export async function verifyToken(token) {
+    try {
+        const decoded = jwt.verify(token, 'redflag');
+        const { userId, name } = decoded;
+        return { userId, name };
+    } catch (error) {
+        return null;
+    }
+}
+

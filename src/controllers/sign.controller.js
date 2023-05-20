@@ -1,6 +1,7 @@
 import { serialize } from "cookie";
 import { checkIfUserExists, createToken, createUser, searchUserByEmail } from "../services/auth.service.js";
 import bcrypt from "bcrypt";
+import Jwt from "jsonwebtoken";
 
 export async function signUp(req, res) {
     const { name, email, password, confirmPassword } = req.body;
@@ -23,39 +24,25 @@ export async function signUp(req, res) {
 }
 
 export async function signIn(req, res) {
-
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     try {
         const userExists = await checkIfUserExists(email);
         if (!userExists) {
-            return res.status(401).send("usuário não existe");
-        }
-        const user = await searchUserByEmail(email)
-
-        const token = await createToken(user.id, user.name)
-
-        if (!bcrypt.compareSync(password, user.password)) return res.sendStatus(401)
-
-        const cookieValue = {
-            token: token,
-            userId: user.id,
-            name: user.name,
+            return res.status(401).send("Usuário não existe");
         }
 
-        const cookieOptions = {
-            httpOnly: true, //
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+        const user = await searchUserByEmail(email);
+        if (!bcrypt.compareSync(password, user.password)) {
+            return res.status(401).send("Credenciais inválidas");
         }
-        const serializedCookie = serialize('cookieName', JSON.stringify(cookieValue), cookieOptions);
 
-        res.setHeader('Set-Cookie', serializedCookie)
-        
-        return res.status(200).send({ token: token })
-    }
-    catch (error) {
-        res.send(error.message)
+        const token = Jwt.sign({ userId: user.id, name: user.name }, "redflag", {
+            expiresIn: '1d'
+        });
+
+        return res.status(200).send({ token });
+    } catch (error) {
+        return res.status(500).send("Erro ao fazer login");
     }
 }
