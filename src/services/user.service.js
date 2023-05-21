@@ -11,7 +11,7 @@ export async function getVisitorsFromUserProfile(userid) {
             'visitCount', "visitCount"
         )) AS shortenedUrls
     FROM urls
-    WHERE userid = $1;
+    WHERE "userId" = $1;
 `
 
     const tableData = await db.query(querystring, [userid])
