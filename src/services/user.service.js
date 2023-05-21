@@ -2,12 +2,12 @@ import db from "../database/database.connection.js"
 export async function getVisitorsFromUserProfile(userid) {
     const querystring = `
     SELECT
-    SUM(visitcount) AS visitCount,
+    SUM(visitCount) AS visitCount,
     json_agg(json_build_object(
         'id', id,
         'shortUrl', shorturl,
         'url', url,
-        'visitCount', visitcount
+        'visitCount', visitCount
     )) AS shortenedUrls
     FROM urls
     WHERE userid = $1;
