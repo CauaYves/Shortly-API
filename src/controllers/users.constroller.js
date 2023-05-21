@@ -11,9 +11,15 @@ export async function getUsers(req, res) {
         if (userData === null) return res.sendStatus(401)
 
         const { userId, name } = userData
-        const answer = await getVisitorsFromUserProfile(userData.userId)
-        const table = { id: userId, name, ...answer }
-        
+        const { visitCount, shortenedUrls } = await getVisitorsFromUserProfile(userData.userId)
+
+        const table = {
+            id: userId,
+            name,
+            visitCount,
+            shortenedUrls
+        }
+
         return res.send(table)
     }
     catch (error) {

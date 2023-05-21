@@ -3,16 +3,18 @@ export async function getVisitorsFromUserProfile(userid) {
 
     const querystring = `
     SELECT
-        SUM("visitCount") AS visitCount,
-        json_agg(json_build_object(
-            'id', id,
-            'shortUrl', "shortUrl",
-            'url', url,
-            'visitCount', "visitCount"
-        )) AS shortenedUrls
-    FROM urls
-    WHERE "userId" = $1;
-`
+    COALESCE(SUM("visitCount"), 0) AS "visitCount",
+    COALESCE(json_agg(json_build_object(
+      'id', id,
+      'shortUrl', "shortUrl",
+      'url', url,
+      'visitCount', "visitCount"
+    )), '[]'::json) AS "shortenedUrls"
+  FROM urls
+  WHERE "userId" = $1;
+  
+    `
+        
 
     const tableData = await db.query(querystring, [userid])
 
