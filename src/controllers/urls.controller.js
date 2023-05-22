@@ -5,19 +5,15 @@ import db from "../database/database.connection.js"
 export async function postUrls(req, res) {
     try {
         const { url } = req.body
-
-        const resp = await checkToken(req, cookie)
-        if (resp === null) return res.status(401).send("token de autenticação expirado, faça login novamente.")
-
-        const nanoidurl = nanoid(8)
+        const id = await checkToken(req)
+        
+        const shortUrl = nanoid(8)
 
         const query = `INSERT INTO urls ("shortUrl", url, "visitCount", "userId", "createdAt") VALUES($1, $2, $3, $4, to_timestamp($5));`
-        const values = [nanoidurl, url, 0, cookie.userId, Date.now()]
+        const values = [shortUrl, url, 0, id, Date.now()]
         await db.query(query, values)
 
-        const urls = await getNanoidById(nanoidurl)
-
-        res.send(urls)
+        res.send({shortUrl, id}).status(201)
     }
     catch (error) {
         res.send(error.message)

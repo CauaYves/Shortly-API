@@ -3,8 +3,12 @@ import jwt from "jsonwebtoken"
 
 export async function checkToken(req) {
     const { authorization } = req.headers
-    if (authorization === undefined) return null
+    const token = authorization.replace("Bearer ", "")
+    const databaseToken = await db.query('SELECT id FROM users WHERE "refreshToken" = $1', [token])
+    const user = databaseToken.rows[0]
+    return user.id
 }
+
 
 export async function getNanoidById(nanoid) {
     const urls = await db.query(`SELECT id, "shortUrl" FROM urls WHERE "shortUrl" = $1;`, [nanoid]);
@@ -34,7 +38,7 @@ export async function getUrlUser(id) {
 
 export async function deleteUrlDatabaseById(id) {
 
-    await db.query("DELETE FROM urls WHERE id = $1;",[id])
+    await db.query("DELETE FROM urls WHERE id = $1;", [id])
 
 }
 export async function verifyToken(token) {
