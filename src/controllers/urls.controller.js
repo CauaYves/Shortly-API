@@ -8,13 +8,12 @@ export async function postUrls(req, res) {
         const { url } = req.body
 
         const cookie = await receiveCookie(req)
-        if (cookie === null) return res.sendStatus(401)
+        if (cookie === null) return res.status(401).send("token de autenticação não recebido, faça login.")
 
         const resp = await checkToken(req, cookie)
-        if (resp === null) return res.sendStatus(401)
+        if (resp === null) return res.status(401).send("token de autenticação expirado, faça login novamente.")
 
         const nanoidurl = nanoid(8)
-
 
         const query = `INSERT INTO urls ("shortUrl", url, "visitCount", "userId", "createdAt") VALUES($1, $2, $3, $4, to_timestamp($5));`
         const values = [nanoidurl, url, 0, cookie.userId, Date.now()]
