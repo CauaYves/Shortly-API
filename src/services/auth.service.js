@@ -18,10 +18,6 @@ export async function createUser(name, email, password) {
 export async function searchAllUsers() {
     return await db.query("SELECT * FROM users")
 }
-export async function searchUserByEmail(email) {
-    const user = await db.query("SELECT * FROM users WHERE email = $1;", [email])
-    return user.rows[0]
-}
 export async function createToken(userid, username) {
     const token = jwt.sign(userid, username)
     return token

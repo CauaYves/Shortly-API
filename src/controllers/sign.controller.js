@@ -1,5 +1,5 @@
 import { serialize } from "cookie";
-import { checkIfUserExists, createToken, createUser, insertTokenOnDB, searchUserByEmail } from "../services/auth.service.js";
+import { checkIfUserExists, createUser, insertTokenOnDB } from "../services/auth.service.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 
@@ -28,22 +28,17 @@ export async function signIn(req, res) {
 
     try {
         const userExists = await checkIfUserExists(email)
-
-        if (!userExists) {
-            return res.status(401).send("Usuário não existe")
-        }
-        const user = await searchUserByEmail(email)
-        if (!bcrypt.compareSync(password, user.password)) {
-            return res.status(401).send("Credenciais inválidas")
+        if (!userExists && !bcrypt.compareSync(password, userExists.password)) {
+            return res.status(401).send("credenciais inválidas")
         }
 
-        const token = Jwt.sign({ userId: user.id, name: user.name }, process.env.SECRET_KEY, {
+        const token = Jwt.sign({ userId: userExists.id, name: userExists.name }, process.env.SECRET_KEY, {
             expiresIn: '1d'
         })
+        const obj = { token, name: userExists.name }
+        await insertTokenOnDB({ token, name: userExists.name })
 
-        await insertTokenOnDB(token,userExists.name)
-
-        return res.status(200).send({ token })
+        return res.status(200).send(obj)
     } catch (error) {
         return res.status(500).send("Erro ao fazer login");
     }
