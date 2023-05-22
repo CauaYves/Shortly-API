@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken"
 
 export async function checkIfUserExists(email) {
     const result = await db.query("SELECT * FROM users WHERE email = $1;", [email]);
-    return result.rowCount !== 0;
+    if(result.rowCount === 0) return null
+    return result.rows[0]
 }
 export async function createUser(name, email, password) {
     const query = `INSERT INTO users (name, email, password, "createdAt") VALUES ($1, $2, $3, to_timestamp($4));`
@@ -24,4 +25,9 @@ export async function searchUserByEmail(email) {
 export async function createToken(userid, username) {
     const token = jwt.sign(userid, username)
     return token
+}
+export async function insertTokenOnDB(token, name) {
+    const querystring = `UPDATE users SET "refreshToken" = $1 WHERE name = $2;`
+    const answer = await db.query(querystring, [token, name])
+    
 }
