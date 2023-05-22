@@ -25,21 +25,3 @@ export async function createToken(userid, username) {
     const token = jwt.sign(userid, username)
     return token
 }
-export async function receiveCookie(req) {
-    const cookieName = 'cookieName';
-
-    if (req.headers.cookie) {
-        const cookies = req.headers.cookie.split(';');
-        const cookieValue = cookies.find(cookie => cookie.trim().startsWith(`${cookieName}=`));
-
-        if (cookieValue) {
-            const serializedCookie = cookieValue.split('=')[1];
-            const decodedCookie = decodeURIComponent(serializedCookie);
-            const parsedCookie = JSON.parse(decodedCookie);
-
-            return parsedCookie;
-        }
-    }
-
-    return null;
-}

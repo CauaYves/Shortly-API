@@ -1,14 +1,10 @@
 import { nanoid } from "nanoid"
-import { receiveCookie } from "../services/auth.service.js"
 import { checkToken, getNanoidById, getUrlDataById, getUrlUser, incrementVisitors, verifyToken, deleteUrlDatabaseById } from "../services/urls.service.js"
 import db from "../database/database.connection.js"
 
 export async function postUrls(req, res) {
     try {
         const { url } = req.body
-
-        const cookie = await receiveCookie(req)
-        if (cookie === null) return res.status(401).send("token de autenticação não recebido, faça login.")
 
         const resp = await checkToken(req, cookie)
         if (resp === null) return res.status(401).send("token de autenticação expirado, faça login novamente.")
