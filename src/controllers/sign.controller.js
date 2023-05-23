@@ -1,4 +1,3 @@
-import { serialize } from "cookie";
 import { checkIfUserExists, createUser, insertTokenOnDB } from "../services/auth.service.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
@@ -40,6 +39,6 @@ export async function signIn(req, res) {
 
         return res.status(200).send(obj)
     } catch (error) {
-        return res.status(500).send("Erro ao fazer login");
+        return res.status(500).send(error);
     }
 }
