@@ -7,6 +7,12 @@ export async function checkIfUserExists(email) {
     if(result.rowCount === 0) return null
     return result.rows[0]
 }
+export async function insertTokenOnDB(token, userId) {
+    console.log(token, userId)
+    const querystring = `UPDATE users SET "refreshToken" = $1 WHERE id = $2;`
+    const res = await db.query(querystring, [token, userId]);
+    return res
+}
 export async function createUser(name, email, password) {
     const query = `INSERT INTO users (name, email, password, "createdAt") VALUES ($1, $2, $3, to_timestamp($4));`
 
@@ -21,10 +27,4 @@ export async function searchAllUsers() {
 export async function createToken(userid, username) {
     const token = jwt.sign(userid, username)
     return token
-}
-export async function insertTokenOnDB(token, userId) {
-    console.log(token, userId)
-    const querystring = `UPDATE users SET "refreshToken" = $1 WHERE id = $2;`
-    const res = await db.query(querystring, [token, userId]);
-    return res
 }

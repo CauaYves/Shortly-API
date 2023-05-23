@@ -31,7 +31,7 @@ export async function signIn(req, res) {
             return res.status(401).send("credenciais inválidas")
         }
 
-        const token = Jwt.sign({ userId: userExists.id, name: userExists.name }, process.env.SECRET_KEY, {
+        const token = Jwt.sign({ userId: userExists.id, name: userExists.name }, process.env.SECRET_KEY || "redflag", {
             expiresIn: '1d'
         })
         const obj = { token, name: userExists.name }
