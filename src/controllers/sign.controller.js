@@ -27,7 +27,7 @@ export async function signIn(req, res) {
 
     try {
         const userExists = await checkIfUserExists(email)
-        if (!userExists && !bcrypt.compareSync(password, userExists.password)) {
+        if (!userExists || !bcrypt.compareSync(password, userExists.password)) {
             return res.status(401).send("credenciais inválidas")
         }
 
