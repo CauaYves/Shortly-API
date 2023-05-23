@@ -23,6 +23,8 @@ export async function createToken(userid, username) {
     return token
 }
 export async function insertTokenOnDB(token, userId) {
+    console.log(token, userId)
     const querystring = `UPDATE users SET "refreshToken" = $1 WHERE id = $2;`
-    await db.query(querystring, [token, userId]);
+    const res = await db.query(querystring, [token, userId]);
+    return res
 }
