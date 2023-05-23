@@ -1,19 +1,18 @@
 import { nanoid } from "nanoid"
-import { checkToken, getNanoidById, getUrlDataById, getUrlUser, incrementVisitors, verifyToken, deleteUrlDatabaseById } from "../services/urls.service.js"
+import { checkToken, getUrlDataById, getUrlUser, incrementVisitors, verifyToken, deleteUrlDatabaseById } from "../services/urls.service.js"
 import db from "../database/database.connection.js"
 
 export async function postUrls(req, res) {
     try {
         const { url } = req.body
         const id = await checkToken(req)
-        
         const shortUrl = nanoid(8)
 
         const query = `INSERT INTO urls ("shortUrl", url, "visitCount", "userId", "createdAt") VALUES($1, $2, $3, $4, to_timestamp($5));`
         const values = [shortUrl, url, 0, id, Date.now()]
         await db.query(query, values)
 
-        res.send({shortUrl, id}).status(201)
+        res.status(201).send({shortUrl, id})
     }
     catch (error) {
         res.send(error.message)

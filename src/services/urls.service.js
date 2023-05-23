@@ -5,8 +5,8 @@ export async function checkToken(req) {
     const { authorization } = req.headers
     const token = authorization.replace("Bearer ", "")
     const databaseToken = await db.query('SELECT id FROM users WHERE "refreshToken" = $1', [token])
-    const user = databaseToken.rows[0]
-    return user.id
+    const id = databaseToken.rows[0]
+    return id
 }
 
 
