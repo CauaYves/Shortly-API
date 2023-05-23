@@ -16,7 +16,7 @@ export async function signUp(req, res) {
         }
 
         await createUser(name, email, password);
-        res.sendStatus(201);
+        res.status(201).send("cadastro concluído")
     } catch (error) {
         res.send(error.message);
     }
