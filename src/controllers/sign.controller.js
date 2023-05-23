@@ -35,7 +35,7 @@ export async function signIn(req, res) {
             expiresIn: '1d'
         })
         const obj = { token, name: userExists.name }
-        await insertTokenOnDB({ token, name: userExists.name })
+        await insertTokenOnDB(token, userExists.name);
 
         return res.status(200).send(obj)
     } catch (error) {

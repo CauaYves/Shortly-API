@@ -22,8 +22,7 @@ export async function createToken(userid, username) {
     const token = jwt.sign(userid, username)
     return token
 }
-export async function insertTokenOnDB(token, name) {
-    const querystring = `UPDATE users SET "refreshToken" = $1 WHERE name = $2;`
-    const answer = await db.query(querystring, [token, name])
-    
+export async function insertTokenOnDB(token, userId) {
+    const querystring = `UPDATE users SET "refreshToken" = $1 WHERE id = $2;`
+    await db.query(querystring, [token, userId]);
 }
