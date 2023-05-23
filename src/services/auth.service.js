@@ -9,12 +9,12 @@ export async function checkIfUserExists(email) {
 }
 export async function insertTokenOnDB(token, userId) {
     console.log(token, userId)
-    const querystring = `UPDATE users SET "refreshToken" = $1 WHERE id = $2;`
+    const querystring = `UPDATE users SET "refreshtoken" = $1 WHERE id = $2;`
     const res = await db.query(querystring, [token, userId]);
     return res
 }
 export async function createUser(name, email, password) {
-    const query = `INSERT INTO users (name, email, password, "createdAt") VALUES ($1, $2, $3, to_timestamp($4));`
+    const query = `INSERT INTO users (name, email, password, "createdat") VALUES ($1, $2, $3, to_timestamp($4));`
 
     const timestamp = new Date().getTime();
     const hashedPassword = await bcrypt.hash(password, 5)

@@ -5,17 +5,17 @@ export async function getTenLastRanked() {
             SELECT
                 u.id,
                 u.name,
-                COUNT(l.id) AS "linksCount",
-                COALESCE(SUM(l."visitCount"), 0) AS "visitCount"
+                COUNT(l.id) AS "linkscount",
+                COALESCE(SUM(l."visitcount"), 0) AS "visitcount"
             FROM
                 users u
             LEFT JOIN
-                urls l ON u.id = l."userId"
+                urls l ON u.id = l."userid"
             GROUP BY
                 u.id,
                 u.name
             ORDER BY
-                "visitCount" DESC
+                "visitcount" DESC
             LIMIT 10
         `)
     return answer.rows

@@ -3,12 +3,12 @@ export async function getVisitorsFromUserProfile(userid) {
 
     const querystring = `
     SELECT
-    COALESCE(SUM("visitCount"), 0) AS "visitCount",
+    COALESCE(SUM("visitcount"), 0) AS "visitcount",
     COALESCE(json_agg(json_build_object(
       'id', id,
-      'shortUrl', "shortUrl",
+      'shorturl', "shorturl",
       'url', url,
-      'visitCount', "visitCount"
+      'visitcount', "visitcount"
     )), '[]'::json) AS "shortenedUrls"
   FROM urls
   WHERE "userId" = $1;
