@@ -131,6 +131,7 @@ INSERT INTO public.urls VALUES (37, 'pivkm0sR', 'https://www.google.com/', 0, NU
 INSERT INTO public.users VALUES (40, 'dsffsf', 'caasdasdasdu@mail.com', '$2b$05$/c5D4PSO4ov.G585C2QzfefO9TNVLLMfwDJ4RZr8uC9snPAge/Ds6', '55359-05-29 06:53:24.999936', NULL);
 INSERT INTO public.users VALUES (41, 'dsffsf', 'caaaddasdu@mail.com', '$2b$05$XPaH4g95uhFs1/e5Y5vy7.8vOpGw2nPHJhDFGPm4.4TU7xacxJ3YC', '55359-06-03 11:10:14.000128', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQxLCJuYW1lIjoiZHNmZnNmIiwiaWF0IjoxNjg0ODA3NDI3LCJleHAiOjE2ODQ4OTM4Mjd9.iDNFDBfZNhzD7zDv0cLdm0pG3Pk85aGg9mkZOXQCthw');
 INSERT INTO public.users VALUES (42, 'Cleitin', 'cleitinrasta@gmail.com', '$2b$05$iaWJ0iFXkO48BR3K0MH5JuoRm.mXjxWsEdh.qc8YLOMcsWYxtm.Fm', '55359-06-07 14:30:08', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQyLCJuYW1lIjoiQ2xlaXRpbiIsImlhdCI6MTY4NDgxMjY5OCwiZXhwIjoxNjg0ODk5MDk4fQ.wGR8qzoOrfewQsP3i31ODYrDW5nTQGE6L2ZAAEk9xKw');
+INSERT INTO public.users VALUES (43, 'asfas', 'cleitasdsta@gmail.com', '$2b$05$Z6ot./1uQXv2fpt/gJusYupw.Y.zoo9Ml01lDpHqIF9X60BqegVPC', '55361-06-28 21:46:19.000064', NULL);
 INSERT INTO public.users VALUES (34, 'Dr. Luiza Moraes', 'Ladislau_Macedo@hotmal.com', '$2b$05$nwqODtDpxOUBQyx9YGyi7.l3ttn2vphYH0qU9LpSlxOXDEJWXH8km', '55350-08-20 11:21:53.999872', NULL);
 
 
@@ -145,7 +146,7 @@ SELECT pg_catalog.setval('public.urls_id_seq', 37, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 42, true);
+SELECT pg_catalog.setval('public.users_id_seq', 43, true);
 
 
 --
@@ -191,3 +192,5 @@ ALTER TABLE ONLY public.urls
 --
 -- PostgreSQL database dump complete
 --
+
+
