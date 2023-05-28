@@ -3,12 +3,14 @@ import jwt from "jsonwebtoken"
 
 export async function checkToken(req) {
     const { authorization } = req.headers
+    console.log('authorization:',authorization)
     if(!authorization) return null
     const token = authorization.replace("Bearer ", "")
+    console.log('token:',token)
     const databaseToken = await db.query('SELECT id FROM users WHERE "refreshToken" = $1', [token]);
-    if (databaseToken.rows.length === 0) {
-      return null;
-    }
+    console.log('databaseToken:',databaseToken.rows)
+
+    if (databaseToken.rows.length === 0) return null;
     const id = databaseToken.rows[0].id;
     return id;
     

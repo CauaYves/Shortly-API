@@ -16,8 +16,8 @@ export async function getUsers(req, res) {
         const table = {
             id: userId,
             name,
-            visitCount,
-            shortenedUrls
+            visits: visitCount,
+            urls: shortenedUrls
         }
 
         return res.send(table)
