@@ -8,20 +8,16 @@ export async function checkToken(req) {
     const id = databaseToken.rows[0]
     return id
 }
-
-
 export async function getNanoidById(nanoid) {
     const urls = await db.query(`SELECT id, "shortUrl" FROM urls WHERE "shortUrl" = $1;`, [nanoid]);
     if (urls.rowCount === 0) return null
     return urls.rows[0]
 }
-
 export async function getUrlDataById(id) {
     const answer = await db.query(`SELECT id, "shortUrl", url FROM urls WHERE id = $1;`, [id]);
     if (answer.rowCount === 0) return null
     return answer.rows[0]
 }
-
 export async function incrementVisitors(shorturl) {
     const query = `UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE "shortUrl" = $1 RETURNING url`;
     const values = [shorturl];
@@ -29,18 +25,17 @@ export async function incrementVisitors(shorturl) {
     if (res.rowCount === 0) return null
     return res.rows[0].url
 }
-
 export async function getUrlUser(id) {
     const answer = await db.query(`SELECT id, "shortUrl", url, "userId" FROM urls WHERE id = $1;`, [id]);
     if (answer.rowCount === 0) return null
     return answer.rows[0]
 }
-
 export async function deleteUrlDatabaseById(id) {
 
     await db.query("DELETE FROM urls WHERE id = $1;", [id])
 
 }
+
 export async function verifyToken(token) {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -50,4 +45,5 @@ export async function verifyToken(token) {
         return null;
     }
 }
+
 
