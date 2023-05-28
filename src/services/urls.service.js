@@ -5,9 +5,13 @@ export async function checkToken(req) {
     const { authorization } = req.headers
     if(!authorization) return null
     const token = authorization.replace("Bearer ", "")
-    const databaseToken = await db.query('SELECT id FROM users WHERE "refreshToken" = $1', [token])
-    const id = databaseToken.rows[0]
-    return id
+    const databaseToken = await db.query('SELECT id FROM users WHERE "refreshToken" = $1', [token]);
+    if (databaseToken.rows.length === 0) {
+      return null;
+    }
+    const id = databaseToken.rows[0].id;
+    return id;
+    
 }
 export async function getNanoidById(nanoid) {
     const urls = await db.query(`SELECT id, "shortUrl" FROM urls WHERE "shortUrl" = $1;`, [nanoid]);
