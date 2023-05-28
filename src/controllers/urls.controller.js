@@ -51,10 +51,8 @@ export async function deleteUrl(req, res) {
 
         if (url === null) return res.sendStatus(404)
         const userData = await verifyToken(token)
-
         if (userData === null) return res.sendStatus(401)
-
-        if (userData.userId !== url.userid) return res.sendStatus(401)
+        if (userData.userId !== url.userId) return res.sendStatus(401)
 
         await deleteUrlDatabaseById(url.id)
 
