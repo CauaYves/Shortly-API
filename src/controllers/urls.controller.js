@@ -5,7 +5,8 @@ import db from "../database/database.connection.js"
 export async function postUrls(req, res) {
     try {
         const { url } = req.body
-        const id = await checkToken(req)
+        const idstring = await checkToken(req)
+        const id = Number(idstring)
         if(id === null) return res.status(422).send("Token inválido, faça login novamente!")
         const shortUrl = nanoid(8)
 
