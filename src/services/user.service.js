@@ -5,10 +5,10 @@ export async function getVisitorsFromUserProfile(userid) {
     SELECT
     COALESCE(SUM("visitCount"), 0) AS "visitCount",
     COALESCE(json_agg(json_build_object(
-      id, id,
-      shortUrl, "shortUrl",
-      url, url,
-      visitCount, "visitCount"
+      'id', id,
+      'shortUrl', "shortUrl",
+      'url', url,
+      'visitCount', "visitCount"
       )), '[]'::json) AS "shortenedUrls"
     FROM urls
     WHERE "userId" = $1;
