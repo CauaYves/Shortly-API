@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 
 export async function checkToken(req) {
     const { authorization } = req.headers
+    if(!authorization) return null
     const token = authorization.replace("Bearer ", "")
     const databaseToken = await db.query('SELECT id FROM users WHERE "refreshToken" = $1', [token])
     const id = databaseToken.rows[0]

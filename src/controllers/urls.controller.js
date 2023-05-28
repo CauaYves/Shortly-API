@@ -6,6 +6,7 @@ export async function postUrls(req, res) {
     try {
         const { url } = req.body
         const id = await checkToken(req)
+        if(id === null) return res.status(422).send("Token inválido, faça login novamente!")
         const shortUrl = nanoid(8)
 
         const query = `INSERT INTO urls ("shortUrl", url, "visitCount", "userId", "createdAt") VALUES($1, $2, $3, $4, to_timestamp($5));`
